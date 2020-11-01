@@ -6,48 +6,38 @@ import credentials
 
 # Change these to your path
 download_path = r"/Users/blackout/Downloads/"  # Path for downloads
-# statistics = r"/Users/blackout/Downloads/Statistics"  # Path for folder
-# comp_arch = r"/Users/blackout/Downloads/Computer Architecture"  # Path for folder
-# management = r"/Users/blackout/Downloads/Management"  # Path for folder
+athtech = r"/Users/blackout/Downloads/AthTech/Courses"
 
 PATH = "/Users/blackout/Scraper/AthTechScraper/chromedriver"  # Path for chromedriver location
 
 driver = webdriver.Chrome(PATH)
 driver.get("http://ilearn.athtech.gr/login/index.php")
 
-
-statistics = "Statistics"
-comp_arch = "Computer Architecture"
-management = "Management"
-
-statistics_path = os.path.join(download_path, statistics)
-comp_arch_path = os.path.join(download_path, comp_arch)
-management_path = os.path.join(download_path, management)
-
-shutil.rmtree(statistics_path)
-shutil.rmtree(comp_arch_path)
-shutil.rmtree(management_path)
-
+statistics = os.path.join(athtech, "Statistics")
+comp_arch = os.path.join(athtech, "Computer Architecture")
+management = os.path.join(athtech, "Management")
 
 
 try:
-    os.mkdir(statistics_path)
-    os.mkdir(comp_arch_path)
-    os.mkdir(management_path)
-except OSError:
+    shutil.rmtree(statistics)
+    shutil.rmtree(comp_arch)
+    shutil.rmtree(management)
+except FileNotFoundError:
     pass
 
-
-
-
+try:
+    os.mkdir(statistics)
+    os.mkdir(comp_arch)
+    os.mkdir(management)
+except OSError:
+    pass
 
 # List of courses
 courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[3]/a",
            "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[5]/a",
            "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[7]/a"]
 
-list2 = [comp_arch_path, management_path, statistics_path]  # Sorter function loops through this list
-
+list2 = [comp_arch, management, statistics]  # Sorter function loops through this list
 
 # Credentials and Login
 username = driver.find_element_by_id("username")
@@ -95,5 +85,5 @@ for x in range(len(courses)):
 # paraskakis = "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[6]/a"
 
 
-time.sleep(5)
+time.sleep(2)
 driver.quit()
