@@ -2,6 +2,7 @@ from selenium import webdriver
 import time
 import os
 import shutil
+import credentials
 
 # Change these to your path
 download_path = r"/Users/blackout/Downloads/"  # Path for downloads
@@ -51,8 +52,8 @@ list2 = [comp_arch_path, management_path, statistics_path]  # Sorter function lo
 # Credentials and Login
 username = driver.find_element_by_id("username")
 password = driver.find_element_by_id("password")
-username.send_keys("****")  # Enter your username
-password.send_keys("****")  # Enter your password
+username.send_keys(credentials.username)  # Enter your username
+password.send_keys(credentials.password)  # Enter your password
 driver.find_element_by_id("loginbtn").click()
 
 
