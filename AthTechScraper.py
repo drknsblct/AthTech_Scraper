@@ -12,6 +12,7 @@ PATH = "/Users/blackout/Scraper/AthTechScraper/chromedriver"  # Path for chromed
 driver = webdriver.Chrome(PATH)
 driver.get("http://ilearn.athtech.gr/login/index.php")
 
+# Path for each folder
 statistics = os.path.join(athtech, "Statistics")
 comp_arch = os.path.join(athtech, "Computer Architecture")
 management = os.path.join(athtech, "Management")
@@ -19,6 +20,7 @@ cont_math = os.path.join(athtech, "Continuous Math")
 
 courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
 
+# Creates/deletes folders
 try:
     for x in range(len(courses_list)):
         shutil.rmtree(courses_list[x])
@@ -72,6 +74,7 @@ def sorter(folder):
             pass
 
 
+# Downloads Math course
 def download_math():
     dropdown_menu()
     driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a").click()
@@ -82,6 +85,7 @@ def download_math():
                     y) + "]/div/div/div[2]/div/a/span").click()
 
 
+# Downloads Management, Statistics, Computer Architecture courses
 for x in range(len(courses)):
     dropdown_menu()
     driver.find_element_by_xpath(courses[x]).click()
@@ -89,11 +93,14 @@ for x in range(len(courses)):
     time.sleep(2)
     sorter(list2[x])
 
+# Downloads Math course
 try:
     download_math()
 except NoSuchElementException:
     pass
+
 time.sleep(2)
+
 sorter(cont_math)
 
 time.sleep(2)
