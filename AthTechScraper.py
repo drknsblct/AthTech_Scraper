@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 import time
 import os
 import shutil
@@ -6,33 +7,31 @@ import credentials
 
 # Change these to your path
 download_path = r"/Users/blackout/Downloads/"  # Path for downloads
-athtech = r"/Users/blackout/Downloads/AthTech/Courses"
-
+athtech = r"/Users/blackout/Downloads/AthTech/Courses"  # Sorter function moves files in this directory
 PATH = "/Users/blackout/Scraper/AthTechScraper/chromedriver"  # Path for chromedriver location
-
 driver = webdriver.Chrome(PATH)
 driver.get("http://ilearn.athtech.gr/login/index.php")
 
 statistics = os.path.join(athtech, "Statistics")
 comp_arch = os.path.join(athtech, "Computer Architecture")
 management = os.path.join(athtech, "Management")
+cont_math = os.path.join(athtech, "Continuous Math")
 
+courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
 
 try:
-    shutil.rmtree(statistics)
-    shutil.rmtree(comp_arch)
-    shutil.rmtree(management)
+    for x in range(len(courses_list)):
+        shutil.rmtree(courses_list[x])
 except FileNotFoundError:
     pass
 
 try:
-    os.mkdir(statistics)
-    os.mkdir(comp_arch)
-    os.mkdir(management)
+    for x in range(len(courses_list)):
+        os.mkdir(courses_list[x])
 except OSError:
     pass
 
-# List of courses
+# List of courses for bot to click
 courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[3]/a",
            "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[5]/a",
            "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[7]/a"]
@@ -73,6 +72,16 @@ def sorter(folder):
             pass
 
 
+def download_math():
+    dropdown_menu()
+    driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a").click()
+    for x in range(2, 5):
+        for y in range(1, 5):
+            driver.find_element_by_xpath(
+                "/html/body/div[2]/section/div/div/div/section/div[2]/div/ul/li[" + str(x) + "]/div[3]/ul/li[" + str(
+                    y) + "]/div/div/div[2]/div/a/span").click()
+
+
 for x in range(len(courses)):
     dropdown_menu()
     driver.find_element_by_xpath(courses[x]).click()
@@ -80,10 +89,12 @@ for x in range(len(courses)):
     time.sleep(2)
     sorter(list2[x])
 
-# oop = "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[2]/a"
-# math = "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a"
-# paraskakis = "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[6]/a"
-
+try:
+    download_math()
+except NoSuchElementException:
+    pass
+time.sleep(2)
+sorter(cont_math)
 
 time.sleep(2)
 driver.quit()
