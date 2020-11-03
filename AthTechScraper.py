@@ -78,7 +78,7 @@ def sorter(folder):
 def download_math():
     dropdown_menu()
     driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a").click()
-    for x in range(2, 5):
+    for x in range(2, 20): #Change the second value for weekly lessons
         for y in range(1, 5):
             driver.find_element_by_xpath(
                 "/html/body/div[2]/section/div/div/div/section/div[2]/div/ul/li[" + str(x) + "]/div[3]/ul/li[" + str(
