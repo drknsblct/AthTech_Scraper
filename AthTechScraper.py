@@ -18,6 +18,9 @@ comp_arch = os.path.join(athtech, "Computer Architecture")
 management = os.path.join(athtech, "Management")
 cont_math = os.path.join(athtech, "Continuous Math")
 
+math_exercises = os.path.join(cont_math, "Exercises")
+math_solutions = os.path.join(cont_math, "Solutions")
+
 courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
 
 # Creates/deletes folders
@@ -76,11 +79,28 @@ def sorter(folder):
             pass
 
 
+def math_sorter():
+    files = os.listdir(cont_math)
+    os.mkdir(math_exercises)
+    os.mkdir(math_solutions)
+    for f in files:
+        src = cont_math + "/" + f
+        try:
+            if "Solutions" in f or "SOLUTIONS" in f:
+                shutil.move(src, math_solutions)
+            elif "Exercises" in f or "EXERCISES" in f or "Revision" in f:
+                shutil.move(src, math_exercises)
+            elif "printer friendly" in f:
+                os.remove(src)
+        except FileNotFoundError:
+            pass
+
+
 # Downloads Math course
 def download_math():
     dropdown_menu()
     driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a").click()
-    for x in range(2, 20): #Change the second value for weekly lessons
+    for x in range(2, 20):  # Change the second value for weekly lessons
         for y in range(1, 5):
             driver.find_element_by_xpath(
                 "/html/body/div[2]/section/div/div/div/section/div[2]/div/ul/li[" + str(x) + "]/div[3]/ul/li[" + str(
@@ -104,5 +124,7 @@ except NoSuchElementException:
 time.sleep(2)
 
 sorter(cont_math)
+
+math_sorter()
 
 driver.quit()
