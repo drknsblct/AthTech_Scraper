@@ -70,6 +70,8 @@ def sorter(folder):
         try:
             if "pdf" in f:
                 shutil.move(src, folder)
+            elif "ipynb" in f:
+                shutil.move(src, statistics)
         except shutil.Error:
             pass
 
@@ -103,5 +105,4 @@ time.sleep(2)
 
 sorter(cont_math)
 
-time.sleep(2)
 driver.quit()
