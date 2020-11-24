@@ -73,7 +73,7 @@ def sorter(folder):
         try:
             if "pdf" in f or "pptx" in f:
                 shutil.move(src, folder)
-            elif "ipynb" in f:
+            elif "ipynb" in f or "xlsx" in f or "csv" in f:
                 shutil.move(src, statistics)
         except shutil.Error:
             pass
