@@ -37,11 +37,10 @@ except OSError:
     pass
 
 # List of courses for bot to click
-courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[3]/a",
-           "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[5]/a",
+courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[5]/a",
            "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[7]/a"]
 
-list2 = [comp_arch, management, statistics]  # Sorter function loops through this list
+list2 = [management, statistics]  # Sorter function loops through this list
 
 # Credentials and Login
 username = driver.find_element_by_id("username")
@@ -78,7 +77,7 @@ def sorter(folder):
         except shutil.Error:
             pass
 
-
+# Makes Exercises and Solutions folders inside Math folder
 def math_sorter():
     files = os.listdir(cont_math)
     os.mkdir(math_exercises)
@@ -90,7 +89,7 @@ def math_sorter():
                 shutil.move(src, math_solutions)
             elif "Exercises" in f or "EXERCISES" in f or "Revision" in f:
                 shutil.move(src, math_exercises)
-            elif "printer friendly" in f:
+            elif "printer friendly" in f or "printer_friendly" in f:
                 os.remove(src)
         except FileNotFoundError:
             pass
@@ -106,8 +105,26 @@ def download_math():
                 "/html/body/div[2]/section/div/div/div/section/div[2]/div/ul/li[" + str(x) + "]/div[3]/ul/li[" + str(
                     y) + "]/div/div/div[2]/div/a/span").click()
 
+def download_comp_arch():
+    dropdown_menu()
+    driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[3]/a").click()
+    pdf = driver.find_elements_by_class_name("instancename")
+    for x in range(len(pdf)):
+        if x == 2:
+            continue
+        if pdf[x].is_displayed():
+            pdf[x].click()
 
-# Downloads Management, Statistics, Computer Architecture courses
+
+download_comp_arch()
+time.sleep(2)
+sorter(comp_arch)
+
+
+
+
+
+# Downloads Management, Statistics courses
 for x in range(len(courses)):
     dropdown_menu()
     driver.find_element_by_xpath(courses[x]).click()
