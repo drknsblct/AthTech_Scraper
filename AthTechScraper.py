@@ -74,8 +74,11 @@ def sorter(folder):
                 shutil.move(src, folder)
             elif "ipynb" in f or "xlsx" in f or "csv" in f:
                 shutil.move(src, statistics)
+            elif "sinx_cosx__plot.gif" in f:
+                os.remove(src)
         except shutil.Error:
             pass
+
 
 # Makes Exercises and Solutions folders inside Math folder
 def math_sorter():
@@ -99,11 +102,13 @@ def math_sorter():
 def download_math():
     dropdown_menu()
     driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a").click()
-    for x in range(2, 20):  # Change the second value for weekly lessons
-        for y in range(1, 5):
-            driver.find_element_by_xpath(
-                "/html/body/div[2]/section/div/div/div/section/div[2]/div/ul/li[" + str(x) + "]/div[3]/ul/li[" + str(
-                    y) + "]/div/div/div[2]/div/a/span").click()
+    pdf = driver.find_elements_by_class_name("instancename")
+    for x in range(len(pdf)):
+        if x == 1:
+            continue
+        if pdf[x].is_displayed():
+            pdf[x].click()
+
 
 def download_comp_arch():
     dropdown_menu()
@@ -116,13 +121,9 @@ def download_comp_arch():
             pdf[x].click()
 
 
-download_comp_arch()
-time.sleep(2)
-sorter(comp_arch)
-
-
-
-
+download_comp_arch() #downloads comp_arch course
+time.sleep(2) #waits 2 seconds
+sorter(comp_arch) #moves items to folder
 
 # Downloads Management, Statistics courses
 for x in range(len(courses)):
