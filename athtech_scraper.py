@@ -17,11 +17,26 @@ statistics = os.path.join(athtech, "Statistics")
 comp_arch = os.path.join(athtech, "Computer Architecture")
 management = os.path.join(athtech, "Management")
 cont_math = os.path.join(athtech, "Continuous Math")
-
 math_exercises = os.path.join(cont_math, "Exercises")
 math_solutions = os.path.join(cont_math, "Solutions")
+pdf = os.path.join(download_path, "PDF")
 
 courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
+
+#Creates PDF folder and saves files already in downloads_folder
+files = os.listdir(download_path)
+try:
+    os.mkdir(pdf)
+except FileExistsError:
+    pass
+
+for f in files:
+    src = download_path + f
+    try:
+        if "pdf" in f:
+            shutil.move(src, pdf)
+    except shutil.Error:
+        pass
 
 # Creates/deletes folders
 try:
@@ -144,5 +159,9 @@ time.sleep(2)
 sorter(cont_math)
 
 math_sorter()
+
+#Deletes PDF folder if there weren't any items before program started
+if len(os.listdir(pdf)) == 0:
+    shutil.rmtree(pdf)
 
 driver.quit()
