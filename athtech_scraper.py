@@ -74,8 +74,8 @@ def sorter(folder):
                 shutil.move(src, folder)
             elif "ipynb" in f or "xlsx" in f or "csv" in f:
                 shutil.move(src, statistics)
-            elif "sinx_cosx__plot.gif" in f:
-                os.remove(src)
+            elif "sinx_cosx__plot.gif" in f or "sinx_cosx__table.jpg" in f:
+                shutil.move(src, folder)
         except shutil.Error:
             pass
 
@@ -121,9 +121,9 @@ def download_comp_arch():
             pdf[x].click()
 
 
-download_comp_arch() #downloads comp_arch course
-time.sleep(2) #waits 2 seconds
-sorter(comp_arch) #moves items to folder
+download_comp_arch()  # downloads comp_arch course
+time.sleep(2)  # waits x seconds
+sorter(comp_arch)  # moves items to folder
 
 # Downloads Management, Statistics courses
 for x in range(len(courses)):
