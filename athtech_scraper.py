@@ -23,7 +23,7 @@ pdf = os.path.join(download_path, "PDF")
 
 courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
 
-#Creates PDF folder and saves files already in downloads_folder
+# Creates PDF folder and saves files already in downloads_folder
 files = os.listdir(download_path)
 try:
     os.mkdir(pdf)
@@ -160,8 +160,10 @@ sorter(cont_math)
 
 math_sorter()
 
-#Deletes PDF folder if there weren't any items before program started
+# Deletes PDF folder if there weren't any pdf before program started
 if len(os.listdir(pdf)) == 0:
     shutil.rmtree(pdf)
+elif len(os.listdir(pdf)) == 1 and ".DS_Store" in os.listdir(pdf):
+    shutil.rmtree(pdf)  # if only .DS_Store in folder then delete
 
 driver.quit()
