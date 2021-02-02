@@ -52,8 +52,9 @@ except OSError:
     pass
 
 # List of courses for bot to click
-courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[5]/a",
-           "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[7]/a"]
+# Add +1 in the last li[] when is Exam period
+courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[6]/a",
+           "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[8]/a"]
 
 list2 = [management, statistics]  # Sorter function loops through this list
 
@@ -130,7 +131,7 @@ def download_comp_arch():
     driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[3]/a").click()
     pdf = driver.find_elements_by_class_name("instancename")
     for x in range(len(pdf)):
-        if x == 2:
+        if x == 2 or x == 12 or x == 13 or x == 15:
             continue
         if pdf[x].is_displayed():
             pdf[x].click()
