@@ -1,69 +1,15 @@
-from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 import time
 import os
 import shutil
-import credentials
+from setup import download_path, driver, pdf
+from setup import statistics, comp_arch, management, cont_math, math_exercises, math_solutions
 
-# Change these to your path
-download_path = r"/Users/blackout/Downloads/"  # Path for downloads
-athtech = r"/Users/blackout/Downloads/AthTech/Courses"  # Sorter function moves files in this directory
-PATH = "/Users/blackout/Scraper/AthTechScraper/chromedriver"  # Path for chromedriver location
-driver = webdriver.Chrome(PATH)
-driver.get("http://ilearn.athtech.gr/login/index.php")
-
-# Path for each folder
-statistics = os.path.join(athtech, "Statistics")
-comp_arch = os.path.join(athtech, "Computer Architecture")
-management = os.path.join(athtech, "Management")
-cont_math = os.path.join(athtech, "Continuous Math")
-math_exercises = os.path.join(cont_math, "Exercises")
-math_solutions = os.path.join(cont_math, "Solutions")
-pdf = os.path.join(download_path, "PDF")
-
-courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
-
-# Creates PDF folder and saves files already in downloads_folder
-files = os.listdir(download_path)
-try:
-    os.mkdir(pdf)
-except FileExistsError:
-    pass
-
-for f in files:
-    src = download_path + f
-    try:
-        if "pdf" in f:
-            shutil.move(src, pdf)
-    except shutil.Error:
-        pass
-
-# Creates/deletes folders
-try:
-    for x in range(len(courses_list)):
-        shutil.rmtree(courses_list[x])
-except FileNotFoundError:
-    pass
-
-try:
-    for x in range(len(courses_list)):
-        os.mkdir(courses_list[x])
-except OSError:
-    pass
-
-# List of courses for bot to click
-# Add +1 in the last li[] when is Exam period
+# Statistics and Management xpaths from dropdown menu
 courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[9]/a",
            "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[12]/a"]
 
-list2 = [management, statistics]  # Sorter function loops through this list
-
-# Credentials and Login
-username = driver.find_element_by_id("username")
-password = driver.find_element_by_id("password")
-username.send_keys(credentials.username)  # Enter your username
-password.send_keys(credentials.password)  # Enter your password
-driver.find_element_by_id("loginbtn").click()
+management_and_statistics = [management, statistics]  # Sorter function loops through this list
 
 
 # Clicks on dropdown menu
@@ -137,34 +83,33 @@ def download_comp_arch():
             pdf[x].click()
 
 
-download_comp_arch()  # downloads comp_arch course
-time.sleep(2)  # waits x seconds
-sorter(comp_arch)  # moves items to folder
+if __name__ == '__main__':
+    download_comp_arch()  # downloads comp_arch course
+    time.sleep(2)  # waits x seconds
+    sorter(comp_arch)  # moves items to folder
 
-# Downloads Management, Statistics courses
-for x in range(len(courses)):
-    dropdown_menu()
-    driver.find_element_by_xpath(courses[x]).click()
-    download()
+    # Downloads Management, Statistics courses
+    for x in range(len(courses)):
+        dropdown_menu()
+        driver.find_element_by_xpath(courses[x]).click()
+        download()
+        time.sleep(2)
+        sorter(management_and_statistics[x])
+
+    # Downloads Math course
+    try:
+        download_math()
+    except NoSuchElementException:
+        pass
+
     time.sleep(2)
-    sorter(list2[x])
+    sorter(cont_math)
+    math_sorter()
 
-# Downloads Math course
-try:
-    download_math()
-except NoSuchElementException:
-    pass
+    # Deletes PDF folder if there weren't any pdf before program started
+    if len(os.listdir(pdf)) == 0:
+        shutil.rmtree(pdf)
+    elif len(os.listdir(pdf)) == 1 and ".DS_Store" in os.listdir(pdf):
+        shutil.rmtree(pdf)  # if only .DS_Store in folder then delete
 
-time.sleep(2)
-
-sorter(cont_math)
-
-math_sorter()
-
-# Deletes PDF folder if there weren't any pdf before program started
-if len(os.listdir(pdf)) == 0:
-    shutil.rmtree(pdf)
-elif len(os.listdir(pdf)) == 1 and ".DS_Store" in os.listdir(pdf):
-    shutil.rmtree(pdf)  # if only .DS_Store in folder then delete
-
-driver.quit()
+    driver.quit()
