@@ -53,8 +53,8 @@ except OSError:
 
 # List of courses for bot to click
 # Add +1 in the last li[] when is Exam period
-courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[6]/a",
-           "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[8]/a"]
+courses = ["/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[9]/a",
+           "/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[12]/a"]
 
 list2 = [management, statistics]  # Sorter function loops through this list
 
@@ -117,7 +117,7 @@ def math_sorter():
 # Downloads Math course
 def download_math():
     dropdown_menu()
-    driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[4]/a").click()
+    driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[7]/a").click()
     pdf = driver.find_elements_by_class_name("instancename")
     for x in range(len(pdf)):
         if x == 1:
@@ -128,7 +128,7 @@ def download_math():
 
 def download_comp_arch():
     dropdown_menu()
-    driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[3]/a").click()
+    driver.find_element_by_xpath("/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[6]/a").click()
     pdf = driver.find_elements_by_class_name("instancename")
     for x in range(len(pdf)):
         if x == 2 or x == 12 or x == 13 or x == 15:
