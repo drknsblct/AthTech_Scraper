@@ -1,11 +1,13 @@
 import os
 import shutil
+import time
+
 from setup.settings import download_path, driver
 from setup.settings import statistics, management, cont_math, math_exercises, math_solutions
 
 # Statistics and Management xpaths from dropdown menu
-courses = ['/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[9]/a',
-           '/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[12]/a']
+courses = ['/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[10]/a',
+           '/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[13]/a']
 
 management_and_statistics = [management, statistics]  # Sorter function loops through this list
 
@@ -30,7 +32,7 @@ def sorter(folder):
     for f in files:
         src = download_path + f
         try:
-            if 'pdf' in f or 'pptx' in f:
+            if 'pdf' in f or 'pptx' in f or 'ppsx' in f:
                 shutil.move(src, folder)
             elif 'ipynb' in f or 'xlsx' in f or 'csv' in f:
                 shutil.move(src, statistics)
@@ -69,7 +71,7 @@ def download_math():
         if pdf[x].is_displayed():
             pdf[x].click()
 
-
+# Downloads Comp. Arch course
 def download_comp_arch():
     dropdown_menu()
     driver.find_element_by_xpath('/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[6]/a').click()
@@ -79,3 +81,12 @@ def download_comp_arch():
             continue
         if pdf[x].is_displayed():
             pdf[x].click()
+
+# Opens dropdown menu, downloads courses and sorts them
+def download_and_sort(courses, courses_list):
+    for x in range(len(courses)):
+        dropdown_menu()
+        driver.find_element_by_xpath(courses[x]).click()
+        download()
+        time.sleep(2)
+        sorter(courses_list[x])

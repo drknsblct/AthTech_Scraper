@@ -4,7 +4,8 @@ import shutil
 
 from setup import credentials
 
-# Don't Change
+answer = int(input('Choose Semester[1|2]: '))
+
 # Change these to your path
 download_path = r'/Users/blackout/Downloads/'  # Path for downloads
 athtech = r'/Users/blackout/Downloads/AthTech/Courses'  # Sorter function moves files in this directory
@@ -15,21 +16,22 @@ driver.get('http://ilearn.athtech.gr/login/index.php')
 # Path for each folder
 pdf = os.path.join(download_path, 'PDF')
 
-# First Semester
-statistics = os.path.join(athtech, 'Statistics')
-comp_arch = os.path.join(athtech, 'Computer Architecture')
-management = os.path.join(athtech, 'Management')
-cont_math = os.path.join(athtech, 'Continuous Math')
+# First Semester filepaths
+statistics = os.path.join(athtech, 'Semester1/Statistics')
+comp_arch = os.path.join(athtech, 'Semester1/Computer Architecture')
+management = os.path.join(athtech, 'Semester1/Management')
+cont_math = os.path.join(athtech, 'Semester1/Continuous Math')
 math_exercises = os.path.join(cont_math, 'Exercises')
 math_solutions = os.path.join(cont_math, 'Solutions')
 
-# Second Semester
-english = os.path.join(athtech, 'English')
-oop_java = os.path.join(athtech, 'OOP Java')
-systems_analysis = os.path.join(athtech, 'Systems Analysis')
-networks = os.path.join(athtech, 'Networks')
+# Second Semester filepaths
+networks = os.path.join(athtech, 'Semester2/Networks')
+discrete_math = os.path.join(athtech, 'Semester2/Discrete Math')
+probabilities = os.path.join(athtech, 'Semester2/Probabilities')
 
-courses_list = [statistics, comp_arch, management, cont_math]  # Used to create or delete folders
+# Used to create or delete folders in filepaths
+courses_list_semester1 = [statistics, comp_arch, management, cont_math]
+courses_list_semester2 = [networks, discrete_math, probabilities]
 
 # Don't Change
 # Creates PDF folder and saves files already in downloads_folder
@@ -48,18 +50,21 @@ for f in files:
     except shutil.Error:
         pass
 
-# Creates/deletes folders
-try:
-    for x in range(len(courses_list)):
-        shutil.rmtree(courses_list[x])
-except FileNotFoundError:
-    pass
 
-try:
-    for x in range(len(courses_list)):
-        os.mkdir(courses_list[x])
-except OSError:
-    pass
+# Creates/deletes folders in courses filepath
+def create_delete_folders(folder_name):
+    try:
+        for x in range(len(folder_name)):
+            shutil.rmtree(folder_name[x])
+    except FileNotFoundError:
+        pass
+
+    try:
+        for x in range(len(folder_name)):
+            os.mkdir(folder_name[x])
+    except OSError:
+        pass
+
 
 # Credentials and Login
 username = driver.find_element_by_id('username')
