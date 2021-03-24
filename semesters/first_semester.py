@@ -32,7 +32,7 @@ def sorter(folder):
     for f in files:
         src = download_path + f
         try:
-            if 'pdf' in f or 'pptx' in f or 'ppsx' in f:
+            if 'pdf' in f or 'pptx' in f or 'ppsx' in f or 'docx' in f:
                 shutil.move(src, folder)
             elif 'ipynb' in f or 'xlsx' in f or 'csv' in f:
                 shutil.move(src, statistics)
