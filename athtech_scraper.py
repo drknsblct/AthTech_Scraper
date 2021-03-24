@@ -4,11 +4,11 @@ import time
 
 from selenium.common.exceptions import NoSuchElementException
 
-from semesters.first_semester import download_comp_arch, sorter, courses, management_and_statistics, download_math, \
-    math_sorter, download_and_sort
+from semesters.first_semester import download_comp_arch, courses, management_and_statistics, download_math, math_sorter
 from semesters.second_semester import download_probabilities, download_networks, courses2, discr_math
-from setup.settings import driver, pdf, comp_arch, cont_math, probabilities, networks, create_delete_folders, \
-    courses_list_semester1, answer, courses_list_semester2
+from semesters.semesters import sorter, download_and_sort
+from setup.settings import answer, create_delete_folders, courses_list_semester1, comp_arch, cont_math, \
+    courses_list_semester2, probabilities, networks, pdf, driver
 
 if __name__ == '__main__':
     while True:

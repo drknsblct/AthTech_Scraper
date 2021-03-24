@@ -1,8 +1,9 @@
-from semesters.first_semester import dropdown_menu
+from semesters.semesters import dropdown_menu
 from setup.settings import driver, discrete_math
 
 courses2 = ['/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[8]/a']
 discr_math = [discrete_math]
+
 
 # Downloads Probabilities course
 def download_probabilities():
@@ -14,6 +15,7 @@ def download_probabilities():
             break
         if pdf[x].is_displayed():
             pdf[x].click()
+
 
 # Downloads Networks course
 def download_networks():
