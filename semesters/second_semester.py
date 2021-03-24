@@ -1,9 +1,8 @@
 from semesters.first_semester import dropdown_menu
-from setup.settings import discrete_math, driver
+from setup.settings import driver, discrete_math
 
 courses2 = ['/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[8]/a']
-
-courses_list_semester2 = [discrete_math]
+discr_math = [discrete_math]
 
 # Downloads Probabilities course
 def download_probabilities():

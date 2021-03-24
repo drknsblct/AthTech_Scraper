@@ -9,7 +9,8 @@ from setup.settings import statistics, management, cont_math, math_exercises, ma
 courses = ['/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[10]/a',
            '/html/body/header/nav/div/div/div/div[1]/div/div[2]/ul/li/ul/li[13]/a']
 
-management_and_statistics = [management, statistics]  # Sorter function loops through this list
+# Sorter function loops through this list
+management_and_statistics = [management, statistics]
 
 
 # Clicks on dropdown menu

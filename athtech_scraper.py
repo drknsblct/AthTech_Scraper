@@ -6,9 +6,9 @@ from selenium.common.exceptions import NoSuchElementException
 
 from semesters.first_semester import download_comp_arch, sorter, courses, management_and_statistics, download_math, \
     math_sorter, download_and_sort
-from semesters.second_semester import download_probabilities, download_networks, courses2, courses_list_semester2
+from semesters.second_semester import download_probabilities, download_networks, courses2, discr_math
 from setup.settings import driver, pdf, comp_arch, cont_math, probabilities, networks, create_delete_folders, \
-    courses_list_semester1, answer
+    courses_list_semester1, answer, courses_list_semester2
 
 if __name__ == '__main__':
     while True:
@@ -42,7 +42,7 @@ if __name__ == '__main__':
             time.sleep(2)
             sorter(networks)
 
-            download_and_sort(courses2, courses_list_semester2)
+            download_and_sort(courses2, discr_math)
             break
 
     # Deletes PDF folder if there weren't any pdf before program started
